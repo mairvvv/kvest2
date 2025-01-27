@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KVEST RAID - Администрирование</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        header {
+            background-color: #1e1e1e;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .quests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .quest-card {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .quest-card img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .quest-card h2 {
+            margin: 10px 0;
+        }
+
+        .quest-card p {
+            margin: 5px 0;
+        }
+
+        .quest-card button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .quest-card button:hover {
+            background-color: #0056b3;
+        }
+
+        .add-quest-form {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .add-quest-form input, .add-quest-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #121212;
+            color: white;
+        }
+
+        .add-quest-form button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .add-quest-form button:hover {
+            background-color: #1e7e34;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>KVEST RAID - Администрирование</h1>
+</header>
+
+<div class="container">
+    <!-- Quest Management Section -->
+    <section>
+        <h2 style="text-align: center; margin-bottom: 20px;">Добавить Новый Квест</h2>
+        <div class="add-quest-form">
+            <h3>Форма добавления квеста</h3>
+            <form method="POST" action="/add-quest" id="addQuestForm">
+                <input type="text" name="name" placeholder="Название квеста" required>
+                <input type="text" name="price" placeholder="Цена" required>
+                <input type="text" name="duration" placeholder="Длительность" required>
+                <textarea name="description" placeholder="Описание квеста" rows="4" required></textarea>
+                <input type="text" name="address" placeholder="Адрес квеста" required>
+                <input type="file" name="image" accept="image/*" required>
+                <button type="submit">Добавить квест</button>
+            </form>
+        </div>
+    </section>
+</div>
+
+<script>
+    // Форма добавления нового квеста
+    document.getElementById('addQuestForm').onsubmit = function(event) {
+        event.preventDefault(); // Останавливаем стандартное поведение формы
+
+        const formData = new FormData(event.target);
+
+        fetch('/add-quest', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            // Очистить форму после успешного добавления
+            event.target.reset();
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+            alert('Произошла ошибка при добавлении квеста.');
+        });
+    };
+</script>
+
+</body>
+</html>
